@@ -23,30 +23,30 @@
 
 #include <time.h>
 #include "../log/log.h"
-
+// 包含未定义类，需要前向声明
 class util_timer;
-
+// 连接资源
 struct client_data
 {
     sockaddr_in address;
     int sockfd;
     util_timer *timer;
 };
-
+// 定时器类
 class util_timer
 {
 public:
-    util_timer() : prev(NULL), next(NULL) {}
+    util_timer() : prev(NULL), next(NULL) {}    // 定时器升序链表
 
 public:
-    time_t expire;
+    time_t expire;  // 超时时间 = 浏览器和服务器连接时刻 + 固定时间（TIMESLOT）
     
-    void (* cb_func)(client_data *);
-    client_data *user_data;
+    void (* cb_func)(client_data *);    // 定时事件回调函数，删除非活动socket上的注册事件并关闭socket
+    client_data *user_data;             // 连接资源，包括客户端套接字、文件描述符、定时器
     util_timer *prev;
     util_timer *next;
 };
-
+// 定时器容器类
 class sort_timer_lst
 {
 public:

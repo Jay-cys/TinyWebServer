@@ -67,6 +67,16 @@ public:
     int m_thread_num;
 
     //epoll_event相关
+    /* 
+        EPOLLIN：表示对应的文件描述符上有数据可读
+        EPOLLOUT：表示对应的文件描述符上可以写入数据
+        EPOLLRDHUP：表示对端已经关闭连接，或者关闭了写操作端的写入
+        EPOLLPRI：表示有紧急数据可读
+        EPOLLERR：表示发生错误
+        EPOLLHUP：表示文件描述符被挂起
+        EPOLLET：表示将epoll设置为边缘触发模式
+        EPOLLONESHOT：表示将事件设置为一次性事件
+    */
     epoll_event events[MAX_EVENT_NUMBER];
 
     int m_listenfd;
@@ -76,7 +86,7 @@ public:
     int m_CONNTrigmode;
 
     //定时器相关
-    client_data *users_timer;
-    Utils utils;
+    client_data *users_timer;   // 组合类，包含client_data类
+    Utils utils;                // 组合类，包含Utils类
 };
 #endif
